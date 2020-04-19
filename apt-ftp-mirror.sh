@@ -4,14 +4,27 @@
 ## This it is a script compatible with DEBIAN & Ubuntu Distros 
 ## Will setup as a apt-mirror server to delivery updates from network using a FTP server
 ##
-
 sudo -i
+
+export endc=$'\e[0m'
+export sbl=$'\e[4m'
+export bld=$'\e[1m'
+export blk=$'\e[5m'
+export deflt=$'\e[90m'
+export bkwhite=${endc}$'\e[48;5;255m'${deflt}
+export red=${bkwhite}$'\e[38;5;196m'
+export green=${bkwhite}$'\e[38;5;34m'
+export blue=${bkwhite}$'\e[38;5;21m'
+export yellow=${bkwhite}$'\e[38;5;214m'
+export bgrey=${bkwhite}$'\e[1;38;5;245m'
+
+echo -e "${bkwhite}\n\n                         ${bld}${red}%@. \n                      #@@@@.                                         *@@@@@@@@@@@@, \n                 .@@@@@@@@@@@@@@@@@@&  \n                    ,@@@@@@. #@@@@@@@@@. \n           ${bld}${green}*@@@#       ${bld}${red}.@@@,     *@@@@@@@ \n          ${bld}${green}&@@@@@@         /,       ${bld}${red}#@@@@@@ \n        ${bld}${green}(@@@@@%                    ${bld}${red}&@@@@@ \n         ${bld}${green}@@@@@@    ${bld}${yellow}HellRezistor    ${bld}${red}&@@@@@. \n         ${bld}${green}@@@@@@                    ${bld}${red}@@@@@@ \n         ${bld}${green}.@@@@@@        /         ${bld}${red},@@@@@@ \n         ${bld}${green},@@@@@@/      @@@,       ${bld}${red}(@@@@ \n            ${bld}${green}@@@@@@@@&   @@@@@@,      ${bld}${red}. \n              ${bld}${green}%@@@@@@@@@@@@@@@@@@. \n                 .@@@@@@@@@@@@@@, \n                        @@@@@( \n                        @@& \n${bkwhite}"
 
 if [ -f /etc/os-release ] ; then
  source /etc/os-release
- echo "This OS: ${ID,,} Distro: ${VERSION_CODENAME,,} DETECTED !" && sleep 1
+ echo -e "${bld}${green}This OS: ${ID,,} Distro: ${VERSION_CODENAME,,} DETECTED !${bkwhite}\n" && sleep 1
 else
- echo "This it is NOT Debian OS or Ubuntu OS !!! " && exit
+ echo -e "${bld}${red}This it is NOT Debian OS or Ubuntu OS !!! ${endc}" && exit
 fi
 
 #### HOSTS ####
@@ -69,13 +82,13 @@ clean http://archive.ubuntu.com/ubuntu
 EOF
  echo $CONFIG >> /etc/apt/mirror.list
 else
- echo "Nothing to you here ... " && sleep 0.5 && echo "... bye!" && sleep 0.5 && exit
+ echo -e "${bld}${red}Nothing to you here ... " && sleep 0.5 && echo "... bye! ${endc}" && sleep 0.5 && exit
 fi
 
 #### SETUP ####
-echo "Syncronizing... Wait what time is needed..."
+echo -e "${bld}${yellow}Syncronizing... Wait what time is needed...${bkwhite}"
 apt-mirror /etc/apt/mirror.list
-echo "Cool! Finished !!!" && sleep 2
+echo -e "${bld}${green}Cool! Finished !!!${bkwhite}" && sleep 2
 
 #### FTP ####
 apt-get -y install proftpd-basic
@@ -111,7 +124,7 @@ elif [ "${ID,,}" -eq "ubuntu" ] ; then
  sed '/^exit 0/i sleep 5' /etc/rc.local
  sed '/^exit 0/i sudo mount --bind  /var/spool/apt-mirror/mirror/archive.ubuntu.com/ /srv/ftp/ubuntu/' /etc/rc.local
 else
- echo "Nothing to you here ... " && sleep 0.5 && echo "... bye!" && sleep 0.5 && exit
+ echo -e"${bld}${red}Nothing to you here ... " && sleep 0.5 && echo "... bye! ${endc}" && sleep 0.5 && exit
 fi
 
 #### Add Crontab ####
@@ -119,8 +132,6 @@ fi
 (crontab -l 2>/dev/null; \
   echo "0 2 * * * /usr/bin/apt-mirror >> /var/spool/apt-mirror/apt-mirror.log") | crontab -
 
-echo "Configure Client with ...
-ftp://<ip>/debian
-ftp://<ip>/ubuntu "
+echo -e "${bld}${yellow}Configure Client with ...\n${bld}${green}ftp://<ip>/debian\nftp://<ip>/ubuntu "
 
-exit
+echo -e "${endc}" && exit
