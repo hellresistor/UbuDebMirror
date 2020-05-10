@@ -66,7 +66,7 @@ clean http://deb.debian.org/
 clean http://security.debian.org/
 EOF
  echo "$CONFIG" >> /etc/apt/mirror.list
-elif [ "${ID,,}" -eq "ubuntu" ] ; then
+elif [ "${ID,,}" = "ubuntu" ] ; then
  CONFIG=<<EOF
 deb http://archive.ubuntu.com/ubuntu ${VERSION_CODENAME,,} main restricted universe multiverse
 deb http://archive.ubuntu.com/ubuntu ${VERSION_CODENAME,,}-security main restricted universe multiverse
