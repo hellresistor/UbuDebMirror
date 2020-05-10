@@ -1,0 +1,15 @@
+name: LintCheck
+on:
+  
+  push:
+    branches:
+      - master
+  pull_request:
+    
+jobs:
+  AptMirrorShellCheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Lint check
+        uses: azohra/shell-linter@v0.3.0
